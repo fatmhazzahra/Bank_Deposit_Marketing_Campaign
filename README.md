@@ -1,137 +1,249 @@
-# 🏦 Bank Marketing Campaign: Subscription Prediction and Customer Segmentation
+# 🏦 Bank Marketing Campaign - Term Deposit Prediction
 
-[![Python](https://img.shields.io/badge/Python-3.10-blue)](https://python.org)
-[![PyCaret](https://img.shields.io/badge/AutoML-PyCaret-orange)](https://pycaret.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Notebook](https://img.shields.io/badge/Notebook-Jupyter-orange)]()
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
+[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.0%2B-orange)](https://scikit-learn.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.0%2B-red)](https://streamlit.io/)
 
-## 📌 Overview
+A machine learning project predicting term deposit subscriptions for bank marketing campaigns using advanced classification algorithms and imbalanced learning techniques.
 
-This project analyzes the UCI Portuguese Bank Marketing dataset (45,211 records, 17 features) through two complementary lenses: **supervised classification** to predict term deposit subscriptions, and **unsupervised clustering** to segment customers into actionable personas.
+## Author
+- Fatimah Azzahra
+- Tengku Arika Hazera
+- Yonathan Hary Hutagalung
 
-Two modeling approaches are benchmarked for classification: a **Conventional ML pipeline** (sklearn-based) and an **AutoML approach** using PyCaret, comparing development speed, performance, and interpretability. Customer segmentation is handled using **K-Prototypes**, chosen for its native support of mixed numeric and categorical data.
+## External Links:
 
-| Item | Detail |
-|---|---|
-| Dataset | UCI Bank Marketing (Portuguese bank, 2008-2010) |
-| Target | `y` — Term deposit subscription (yes/no) |
-| Imbalance Ratio | ~88% No / ~12% Yes |
-| Problem Type | Binary Classification + Unsupervised Clustering |
-| Evaluation | F2-Score (recall-focused) for classification |
+[Streamlit Link](https://bankmarketingprojectalpha.streamlit.app/)
 
-More insights can be found here: [Purwadhika full end-to-end project](https://github.com/jcdspurwadhika/JCDSJKTPM-34_Alpha)
+[Tableau Public Link](https://public.tableau.com/app/profile/fatimah.azzahra1060/viz/Final_Project_Alpha-Team/Dashboard2?publish=yes)
 
-## 💼 Business Problem
+## Overview
 
-Running direct marketing campaigns is costly. The bank needs to identify high-probability subscribers before calling, so the sales team can focus their efforts efficiently. A model with high recall on class `yes` directly reduces wasted call costs and improves conversion rate.
+This project is part of the **Purwadhika Data Science Bootcamp Final Capstone Project**. It aims to predict whether a bank client will subscribe to a term deposit based on demographic information, financial status, and previous campaign interactions.
 
-Beyond prediction, understanding **who** those likely subscribers are enables smarter campaign design. Clustering surfaces distinct customer personas with varying conversion rates, giving the marketing team a targeting framework that goes beyond a binary yes/no flag.
+### Key Objectives
 
-**Objectives:**
-- Build a reliable classifier to flag likely subscribers
-- Minimize false negatives (missed potential subscribers)
-- Segment all customers into interpretable groups using K-Prototypes
-- Identify which segments have the highest subscription rate above the 11% baseline
-- Compare AutoML efficiency vs. manual pipeline development
+- Maximize **Recall** (≥60%) to identify most potential subscribers
+- Balance precision through **F2-Score** (≥0.55)
+- Achieve **PR-AUC** (≥0.50) for reliable predictions on imbalanced data
+- Optimize marketing campaign ROI through targeted client prioritization
 
-## 📂 Repository Structure
+## Business Problem
+
+Banks invest significant resources in marketing campaigns for term deposits, but face several challenges:
+
+1. Wasted resources on customers unlikely to subscribe
+2. Inefficient allocation of call center time
+3. Potential customer fatigue from excessive contact attempts
+4. Suboptimal return on investment (ROI) from marketing campaigns
+
+### Solution
+
+`Primary objective`: Generating ML model to analyze customers' data features and build a predictive model to identify customers most likely to subscribe to term deposits, enabling the bank to:
+
+- Optimize marketing campaign efficiency
+- Reduce operational costs
+- Improve customer experience by reducing unnecessary contacts
+- Increase overall campaign success rate
+
+`Success metrics`:
+
+- Maximize Recall (minimize missed potential subscribers)
+- Maintain acceptable Precision (avoid too many false positives)
+- Optimize F2-Score (prioritize recall over precision)
+- Achieve strong PR-AUC score for imbalanced data
+
+## Stakeholders
+
+`Primary stakeholders`:
+
+1. Marketing Team: Use predictions to prioritize customer contacts
+2. Call Center Operations: Optimize resource allocation
+3. Bank Management: Strategic decision-making on campaign investments
+4. Finance Team: Manages liquidity planning and funding risk based on projected deposit acquisition, especially during crisis and recovery periods
+
+`Secondary stakeholders`:
+
+5. Data Science Team: Model development and maintenance
+6. Business Strategy/Product Team: Develops product offerings and customer segmentation strategies based on analytical insights
+7. Customers: Benefit from an improved experience through more targeted and relevant communication
+
+## Dataset
+
+**Source**: [Bank Marketing Campaigns Dataset - Kaggle](https://www.kaggle.com/datasets/volodymyrgavrysh/bank-marketing-campaigns-dataset)
+
+### Dataset Statistics
+- **Total Records**: 41,188
+- **Features**: 20
+- **Target**: Binary (yes/no subscription)
+- **Class Distribution**: Imbalanced (~11% positive class)
+
+### Feature Categories
+
+#### 1. Client Demographics
+- Age, Job type, Marital status, Education level
+
+#### 2. Financial Status
+- Housing loan, Personal loan, Is default status known
+
+#### 3. Campaign Contact Details
+- Contact type, Month, Day of week
+
+#### 4. Campaign Statistics
+- Number of contacts, Days since last contact, Previous contacts, Previous outcome
+
+#### 5. Macroeconomic Indicators
+- Number of employment, consumer confidence index, 3 month EURIBOR Interest rate.
+
+##  Methodology
+
+### 1. Data Understanding & Cleaning
+- Missing value analysis and imputation strategy
+- Drop duplicates
+- Outlier detection and treatment
+- Feature type identification and conversion
+- Data quality assessment
+
+### 2. Exploratory Data Analysis
+- Univariate and bivariate analysis
+- Inferential statistics (Chi-square tests)
+- Correlation analysis
+- Target variable imbalance detection
+
+### 3. Feature Engineering
+- Transform `pdays` to binary `was_contacted_before`
+- Transform `default` to binary `is default status known`
+- Remove unimportant categorical features
+- Create preprocessing pipelines and Transformer
+- Use KNN inputing for better imputing result (n=3)
+- Use One-Hot-Encodign for categorical encoding
+
+### 4. Model Development
+
+#### Models Benchmarked
+- Logistic Regression
+- K-Nearest Neighbors (KNN)
+- Decision Tree
+- Random Forest
+- Gradient Boosting
+- AdaBoost
+- CatBoost
+- LightGBM
+- XGBoost
+
+#### Handling Class Imbalance
+- Random Over-Sampling
+- Random Under-Sampling
+- Near Miss
+- SMOTE (Synthetic Minority Over-sampling)
+- SMOTEENN (Hybrid approach)
+- Class Weight Balancing (For Available Model)
+
+#### Optimization
+- Hyperparameter tuning with GridSearchCV
+- 5-fold cross-validation
+- Custom F2-Score optimization
+
+### 5. Model Evaluation
+- Confusion Matrix analysis
+- Precision-Recall trade-offs
+- ROC-AUC and PR-AUC curves
+- Cost-benefit analysis
+- SHAP interpretability
+
+## Results
+
+### Model Performance
+- **Recall**: Achieved target (65%)
+- **F2-Score**: Achieved target (more than 0.55)
+- **PR-AUC**: Slighly lower compared target target (0.48 out of 0.50)
+
+### Business Impact
+   - Estimated net benefit: reduce operational calling time by -74.3% or almost 4 times more efficient or `337% more profit` gain compared to baseline approach
+   - Enables targeted marketing campaigns with higher efficiency
+   - Reduces unnecessary customer contacts improving satisfaction
+   - Provides data-driven prioritization for call center operations
+
+### Top Predictive Features
+1. Macroeconomic Indicator: nr.employed, consumer confidence index and euribor 3m affects the decision and psychological factors of a person to take a term deposits
+2. Age: It shows that slightly mature individuals likely to subscribe to term deposit (more than 30 yo)
+3. Contact type: customer that called using telephone will likely not to subscribe
+
+### Dependencies
+
+- Python 3.8 or higher
+- Miniconda
+- Virtual environment / Miniconda (recommended)
+
+### Features of Streamlit App
+- **Home**: Homepage navigation into other section
+- **Single Client Prediction**: Input client details for instant prediction
+- **Batch Prediction**: Upload CSV for bulk predictions
+- **Model Training**: Section to train the model
+- **Model Documentation**: Learn about methodology and results
+- **Data Dictionary**: Learn more about the dataset and what it means
+- **Macroeconomic Analysis**: Learn about Macroeconomic behind the scene
+
+##  Project Structure
 
 ```
-Bank_Marketing_Campaign/
-├── raw_data.csv                    # Original UCI dataset (semicolon-delimited)
-├── processed_data.csv              # Preprocessed dataset used for classification
-├── Final_Project_Alpha.ipynb       # Main classification notebook (Conventional + AutoML)
-├── end_to_end_automl.ipynb         # Standalone AutoML exploration notebook
-├── clustering_kprototypes.ipynb    # Customer segmentation with K-Prototypes
-├── app.py                          # Streamlit deployment app
-├── bank_marketing_model.sav        # Saved trained model (joblib)
-└── requirements.txt                # Python dependencies
+bank-marketing-prediction/
+│
+├── bank_marketing_analysis.ipynb     # Complete analysis pipeline
+├── app.py                            # Streamlit web application
+├── README.md                         # This file
+├── requirements.txt                  # Streamlit Requirement file 
+├── raw_data.csv                      # Bank Marketing Campaingn unprocessed dataset
+├── 01_bank_marketing_model.sav       # Final Model (Tuned LGBM)
+└── Bank_campaign.twbx                # Tableau files
 ```
 
-## ⚙️ Methodology
+## Model Performance
 
-### Part 1: Classification
+### Classification Metrics
+| Metric | Score | 
+|--------|-------|
+| Accuracy | 0.843 |
+| Precision | 0.385 |
+| **Recall** | 0.657 | 
+| F1-Score | 0.485 |
+| **F2-Score** | 0.576 |
+| ROC-AUC | 0.482 |
+| **PR-AUC** | 0.815 |
 
-#### Approach 1: Conventional ML (Sklearn Pipeline)
 
-- Preprocessing via `ColumnTransformer` (StandardScaler + OneHotEncoder)
-- StratifiedKFold CV (n=5) across 8 baseline models
-- Best model selected with SMOTE and class_weight resampling
-- Hyperparameter tuning with `GridSearchCV`
-- Explainability via SHAP values
+### Confusion Matrix Interpretation
+- **True Positives (TP)**: Correctly identified subscribers
+- **True Negatives (TN)**: Correctly identified non-subscribers
+- **False Positives (FP)**: Incorrectly predicted subscriptions (wasted calls)
+- **False Negatives (FN)**: Missed potential subscribers (lost revenue)
 
-#### Approach 2: AutoML with PyCaret
+### Cost-Benefit Analysis
+- **Cost per contact**: $5 (phone call + agent time)
+- **Benefit per subscription**: $50 (term deposit profit)
+- **Optimization**: Model minimizes FN (missed revenue) while managing FP (wasted costs)
 
-- `setup()` handles preprocessing automatically
-- `compare_models()` benchmarks 15+ algorithms simultaneously
-- `tune_model()` with Optuna-backed Bayesian search
-- `plot_model()` for native explainability plots
-- Same train/test split as Approach 1 for fair comparison
+## Technologies Used
 
-### Part 2: Customer Segmentation with K-Prototypes
+### Core Libraries
+- **Python 3.8+**: Programming language
+- **Pandas & NumPy**: Data manipulation and analysis
+- **Scikit-learn**: Machine learning algorithms and preprocessing
+- **Imbalanced-learn**: Handling class imbalance
 
-K-Prototypes is selected over K-Means because the UCI Bank dataset contains a mix of numeric features (age, duration, campaign counts, macroeconomic indicators) and categorical features (job, marital status, education, contact type). K-Means cannot handle categorical data natively without lossy one-hot encoding that distorts cluster distances.
+### Visualization
+- **Matplotlib & Seaborn**: Static visualizations
+- **Plotly**: Interactive charts for Streamlit app
 
-**Pipeline summary:**
-1. Load `raw_data.csv` with original categorical string values intact
-2. Apply `StandardScaler` to numeric features only to balance the dissimilarity measure
-3. Determine optimal k using the Elbow Method (cost vs. number of clusters)
-4. Fit final K-Prototypes model with `init='Cao'` for stable initialization
-5. Cross-tabulate cluster labels with `y` to compute conversion rate per segment
-6. Profile each cluster by mean (numeric) and mode (categorical)
-7. Visualize with a normalized heatmap and bar chart of conversion rates
-8. Assign business-friendly segment names and export `clustered_customers.csv`
+### Machine Learning Models
+- **Ensemble Methods**: Random Forest, Gradient Boosting, AdaBoost
+- **Boosting Frameworks**: XGBoost, LightGBM, CatBoost
+- **Linear Models**: Logistic Regression
+- **Instance-based**: K-Nearest Neighbors
 
-> The clustering is run on the **full dataset** (all `y` values), not filtered to subscribers only. This preserves the contrast signal: a 38% conversion cluster is only meaningful relative to the 11% baseline.
+### Model Interpretation
+- **SHAP**: Model explainability and feature importance
 
-## 📊 Classification Results
-
-| Model | Approach | ROC-AUC | F2-Score | Recall (Yes) |
-|---|---|---|---|---|
-| LightGBM + balanced weight (tuned) | Conventional | 0.82 | 0.58 | 0.65 |
-| Logistic Regression (PyCaret tuned) | AutoML | 0.63 | 0.56 | 0.83 |
-
-Conventional ML provided more control over resampling and threshold tuning. PyCaret delivered comparable performance approximately 5x faster in development time.
-
-## 🔍 Segmentation Results
-
-After running the Elbow Method across k=2 to k=8, the cost curve flattens noticeably after k=5, with **k=4** selected as the optimal value balancing cluster quality and business interpretability. Four segments provide distinct, nameable customer personas without over-segmenting the data.
-
-Each cluster is profiled by numeric means and categorical modes, then ranked by their subscription conversion rate against the 11% dataset baseline. High-converting clusters represent priority targeting groups for future campaigns.
-
-## 🚀 Streamlit App
-
-The classification model is deployed as an interactive Streamlit app. Users can input customer attributes and receive a real-time subscription probability score.
-
-To run locally:
-```bash
-pip install -r requirements.txt
-streamlit run app.py
-```
-
-## 🛠️ Requirements
-
-```
-streamlit
-pandas
-joblib
-lightgbm
-plotly
-scikit-learn
-kmodes
-```
-
-Install all dependencies with:
-```bash
-pip install -r requirements.txt
-```
-
-## 📚 References
-
-Moro, S., Cortez, P., and Rita, P. (2014). A Data-Driven Approach to Predict the Success of Bank Telemarketing. *Decision Support Systems*, Elsevier, 62, 22-31.
-
-UCI Machine Learning Repository: [Bank Marketing Dataset](https://archive.uci.edu/dataset/222/bank+marketing)
-
-## 📄 License
-
-This project is licensed under the MIT License.
+### Deployment
+- **Streamlit**: Web application framework
+- **Joblib**: Model serialization
